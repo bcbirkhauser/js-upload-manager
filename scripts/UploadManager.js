@@ -165,25 +165,31 @@ var UploadManager = function(options) {
         state.clear();
         updateStatus(state);
         removeUpload(state.getId());
-        item = document.querySelector("[data-upload-state='" + state.getId() + "']");
-        item.className = item.className + ' complete';
-        progress = item.getElementsByClassName('progress');
-        item.removeChild(progress[0]);
-        btn = item.getElementsByClassName('btn');
-        item.removeChild(btn[0]);
+        if (self.settings.notifications) {
+            item = document.querySelector("[data-upload-state='" + state.getId() + "']");
+            item.className = item.className + ' complete';
+            progress = item.getElementsByClassName('progress');
+            item.removeChild(progress[0]);
+            btn = item.getElementsByClassName('btn');
+            item.removeChild(btn[0]);
+        }
+
 
     }
 
     var cancelUpload = function(state) {
-        item = document.querySelector("[data-upload-state='" + state.getId() + "']");
-        item.className = item.className + ' cancelled';
-        progress = item.getElementsByClassName('progress');
-        item.removeChild(progress[0]);
-        btn = item.getElementsByClassName('btn');
-        item.removeChild(btn[0]);
+
         state.endUpload();
         state.clear();
         removeUpload(state.getId());
+        if (self.settings.notifications) {
+            item = document.querySelector("[data-upload-state='" + state.getId() + "']");
+            item.className = item.className + ' cancelled';
+            progress = item.getElementsByClassName('progress');
+            item.removeChild(progress[0]);
+            btn = item.getElementsByClassName('btn');
+            item.removeChild(btn[0]);
+        }
     }
 
     var buildNotificationWindow = function(state) {
